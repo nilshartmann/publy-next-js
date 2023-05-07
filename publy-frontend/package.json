@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "codegen": "graphql-codegen --config codegen.yml && prettier --write src/generated/**",
+    "codegen:watch": "graphql-codegen --config codegen.yml --watch src/**/*.graphql",
+    "prettier:check": "prettier --check src",
+    "webserver": "rm -f out/404.html && serve -p 3030 --single out"
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
@@ -36,6 +40,7 @@
     "@graphql-codegen/introspection": "^2.2.1",
     "@graphql-codegen/typescript": "^2.7.3",
     "@graphql-codegen/typescript-operations": "^2.5.3",
-    "@graphql-codegen/typescript-react-apollo": "^3.3.3"
+    "@graphql-codegen/typescript-react-apollo": "^3.3.3",
+    "serve": "^14.2.0"
   }
 }

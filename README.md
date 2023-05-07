@@ -1,5 +1,7 @@
 # Publy - GraphQL Example Application
 
+### *EXPERIMENTEL* FRONTEND USES NEXT.JS WITH STATIC EXPORT
+
 # 1. Öffnen und Starten der Anwendung
 
 ![Screenshot der Publy Beispiel Anwendung](./publy-screenshot.png)
