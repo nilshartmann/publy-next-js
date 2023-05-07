@@ -1,0 +1,84 @@
+plugins {
+  id 'java'
+  id 'org.springframework.boot' version '3.0.6'
+  id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'nh.graphql.publy'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+  mavenCentral()
+}
+
+ext {
+  set('testcontainersVersion', "1.17.6")
+}
+
+dependencies {
+  implementation 'org.springframework.boot:spring-boot-starter-security'
+
+  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+  implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+  implementation 'org.springframework.boot:spring-boot-starter-graphql'
+  implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+  implementation 'org.springframework.boot:spring-boot-starter-actuator'
+  developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+  implementation 'org.flywaydb:flyway-core'
+  runtimeOnly 'org.postgresql:postgresql'
+
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  testImplementation 'org.springframework.graphql:spring-graphql-test'
+
+  testImplementation 'org.testcontainers:junit-jupiter'
+  testImplementation 'org.testcontainers:postgresql'
+
+
+  implementation 'org.commonmark:commonmark:0.18.1'
+
+  compileOnly 'org.jetbrains:annotations:20.1.0'
+
+  // JWT
+  implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+  runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+  runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+
+}
+
+dependencyManagement {
+  imports {
+    mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
+  }
+}
+
+tasks.named('test') {
+  useJUnitPlatform()
+}
+
+def githubSha = System.getenv('GITHUB_SHA');
+def shortSha = githubSha != null ? githubSha.substring(0, 7) : "local";
+def dockerTag = "ghcr.io/nilshartmann/${project.name}:${shortSha}"
+println(dockerTag)
+
+tasks.named("bootBuildImage") {
+  imageName = "ghcr.io/nilshartmann/${project.name}:${project.version}"
+  tags = [dockerTag]
+
+  // Conntect Package with GitHub Repository
+  environment["BP_OCI_SOURCE"] = "https://github.com/nilshartmann/spring-graphql-training"
+
+  docker {
+    publishRegistry {
+      // Properties set in Github Action file
+      username = getProperty('publy_docker_username')
+      password = getProperty('publy_docker_secret')
+    }
+  }
+}
