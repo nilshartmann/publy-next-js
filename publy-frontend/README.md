@@ -1,34 +1,85 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# What and why?
 
-## Getting Started
+This is an **_experimental_** port of my GraphQL example and training React frontend "Publy" to [Next.js](https://nextjs.org/).
 
-First, run the development server:
+It uses Next "Static Exports" mode and only runs as a "traditional" client-side Single Page Application.
+
+I only created this project because I wanted to know if and how it would be possible to move an existing "create-react-app"-based application to Next.js with the least amount of changes neccessary. This could be helpful if you want to move away from create-react-app/react-scripts. Then - depending on your needs - one possible target could be Next.js.
+
+For this reason, this example still uses the React Router (and not the Next/App Router) and also does not use any Next-specific features (aside from `"use client"` and a Root `page` and `layout` component). 
+
+**In no way I want to say this is the best migration strategy.** Again I only did this to discover potential ways of migrating away from create-react-app.
+
+# Running the example
+
+Running the example is as easy as `pnpm dev` but you have to start a database and the Java-based backend (GraphQL) services before:
+
+## Running the backend
+
+**Prerequisites:**
+
+- Java 17
+- Docker
+
+**Step 1: Clone repository**
+
+- Please clone this repository with your Git client first.
+
+**Step 2: Start database (with Docker)**
+
+In the root directory of the repository:
+
+```
+docker-compose up -d
+
+```
+**Step 3: Start userservice**
+
+Attention! Port 8081 must not be occupied:
+
+```
+./gradlew publy-userservice:bootRun
+```
+
+**Step 4: Start GraphQL backend**
+
+Attention! Port 8080 must not be occupied:
+```
+./gradlew publy-backend:bootRun
+
+```
+You can now open the GraphiQL Explorer via http://localhost:8080 and execute queries and mutations.
+
+## Running the experimental (!!) frontend
+
+Inside `publy-frontend`:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application should run on http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Exporting the "static" frontend:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+pnpm build
+```
 
-## Learn More
+The artifacts are generated into the `out/` folder, which is the default setting in Next.js.
 
-To learn more about Next.js, take a look at the following resources:
+## Running the exported backend
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+After exporting the backend you can run the exported backend:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```
+pnpm webserver
+```
 
-## Deploy on Vercel
+The frontend then runs on http://localhost:3030. It uses the simple [serve](https://www.npmjs.com/package/serve) package as a webserver here. You could of course use any other webserver too. (If anyone wants to contribute a Dockerfile for example for nginx I would be very helpful 😊)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Contact
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+If you have questions, don't hesitate to contact me or to open PRs/Issues in this repository. You can also follow me on [Twitter](https://twitter.com/nilshartmann) and [Mastodon](https://norden.social/@nilshartmann).
+
