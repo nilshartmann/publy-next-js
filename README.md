@@ -2,6 +2,8 @@
 
 ### *EXPERIMENTEL* FRONTEND USES NEXT.JS WITH STATIC EXPORT
 
+**Please find more information about the next.js port in [`publy-frontend/README.md`](./publy-frontend/README.md)**
+
 # 1. Öffnen und Starten der Anwendung
 
 ![Screenshot der Publy Beispiel Anwendung](./publy-screenshot.png)
