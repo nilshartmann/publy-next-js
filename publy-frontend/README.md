@@ -1,6 +1,6 @@
 # What and why?
 
-This is an **_experimental_** port of my GraphQL example and training React frontend "Publy" to [Next.js](https://nextjs.org/).
+This is an **_experimental_** port of my GraphQL example and training React frontend application "Publy" to [Next.js](https://nextjs.org/).
 
 It uses Next "Static Exports" mode and only runs as a "traditional" client-side Single Page Application.
 
@@ -9,6 +9,8 @@ I only created this project because I wanted to know if and how it would be poss
 For this reason, this example still uses the React Router (and not the Next/App Router) and also does not use any Next-specific features (aside from `"use client"` and a Root `page` and `layout` component). 
 
 **In no way I want to say this is the best migration strategy.** Again I only did this to discover potential ways of migrating away from create-react-app.
+
+![Screenshot showing the publy example applcation](../publy-screenshot.png)
 
 # Running the example
 
